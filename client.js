@@ -582,9 +582,9 @@ window.__ModuleLoader__.load({
 
     // ---------------------------------------------------------------- 样式
     const CSS = `
-.mp-page{height:100%;min-height:0;display:flex;flex-direction:column;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-base);font:13.5px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;position:relative}
+.mp-page{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-base);font:13.5px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;position:relative;container-type:inline-size}
 .mp-page *{box-sizing:border-box}
-.mp-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px 18px 10px;border-bottom:1px solid var(--dsw-alias-border-l1)}
+.mp-head{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px 18px 10px;border-bottom:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base)}
 .mp-title{font-size:15px;font-weight:650;margin:0 10px 0 0;white-space:nowrap}
 .mp-select,.mp-input{height:30px;border:1px solid var(--dsw-alias-border-l1);border-radius:7px;background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-primary);padding:0 8px;font:inherit;outline:none}
 .mp-input{min-width:170px;flex:1}
@@ -595,11 +595,11 @@ window.__ModuleLoader__.load({
 .mp-btn.primary{background:var(--dsw-alias-brand-primary);border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-bg-base)}
 .mp-btn.tiny{height:24px;padding:0 8px;font-size:12px}
 .mp-btn.on{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary)}
-.mp-body{flex:1;min-height:0;display:flex}
-.mp-left{flex:1;min-width:0;display:flex;flex-direction:column}
+.mp-body{flex:1;min-height:0;display:flex;overflow:hidden}
+.mp-left{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .mp-scroll{flex:1;min-height:0;overflow:auto;padding:8px 18px 16px}
 .mp-hint{color:var(--dsw-alias-label-secondary);font-size:12.5px;padding:8px 2px}
-.mp-hist{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 18px 0}
+.mp-hist{position:relative;z-index:1;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 18px 0;background:var(--dsw-alias-bg-base)}
 .mp-hist-label{flex:none;font-size:11.5px;color:var(--dsw-alias-label-secondary);white-space:nowrap}
 .mp-hist-chip{max-width:180px;height:22px;padding:0 9px;border-radius:11px;border:1px solid var(--dsw-alias-border-l1);background:transparent;color:var(--dsw-alias-label-secondary);font:inherit;font-size:11.5px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mp-hist-chip:hover{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-label-primary)}
@@ -704,14 +704,37 @@ window.__ModuleLoader__.load({
 .mp-imm-btn.on{background:rgba(120,190,255,.28);border-color:rgba(120,190,255,.6)}
 .mp-imm-time{font-size:11.5px;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums;min-width:38px;text-align:center}
 .mp-imm-err{position:absolute;bottom:100%;left:0;right:0;text-align:center;font-size:12px;color:#ffb1b1;padding-bottom:6px;pointer-events:none}
-@media (max-width:900px){
-  .mp-body{flex-direction:column-reverse}
-  .mp-cardwrap{width:100%;border-left:none;border-top:1px solid var(--dsw-alias-border-l1);max-height:56%}
-  .mp-imm-main{flex-direction:column;gap:18px;padding:20px 24px 4px}
-  .mp-disc{width:min(20vh,130px)}
-  .mp-line{font-size:18px}
-  .mp-line.active{font-size:22px}
-  .mp-imm-bar{padding:0 18px 18px;gap:9px;flex-wrap:wrap}
+/* ---- 窄面板：用容器查询跟「面板宽度」走，不再跟窗口宽度走 ---- */
+.mp-mini{display:none;flex:none;flex-direction:column;gap:6px;padding:8px 12px 10px;border-bottom:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-1)}
+.mp-mini .mp-round{width:32px;height:32px;font-size:12px;flex:none}
+.mp-mini .mp-round.play{width:38px;height:38px;font-size:15px}
+.mp-mini-row{display:flex;align-items:center;gap:8px;min-width:0}
+.mp-mini-cover{display:block;width:40px;height:40px;flex:none;border-radius:6px;object-fit:cover;background:var(--dsw-alias-bg-layer-2)}
+.mp-mini-meta{flex:1;min-width:0}
+.mp-mini-name{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-mini-sub{font-size:11.5px;color:var(--dsw-alias-label-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-mini-time{flex:none;min-width:34px;text-align:right;font-size:11px;color:var(--dsw-alias-label-secondary);font-variant-numeric:tabular-nums}
+
+@container (max-width: 760px){
+  .mp-title{display:none}
+  .mp-head{gap:6px;padding:10px 12px 8px}
+  .mp-select{height:30px;font-size:12.5px}
+  .mp-btn{height:34px;padding:0 14px}
+  .mp-actions .mp-btn.tiny{height:28px;padding:0 10px;font-size:12.5px}
+  .mp-hist-chip{height:26px}
+  .mp-input{order:9;flex:1 1 100%;min-width:0;height:30px}
+  /* 卡片在窄面板里太占地方：换成顶部一条迷你播放条 */
+  .mp-cardwrap{display:none}
+  .mp-mini{display:flex}
+  .mp-hist{padding:6px 12px 0}
+  .mp-scroll{padding:6px 12px 14px}
+  .mp-item{padding:6px 6px;gap:8px}
+  .mp-idx{width:16px;font-size:11px}
+  .mp-imm-main{flex-direction:column;gap:16px;padding:18px 18px 4px}
+  .mp-disc{width:min(20vh,120px)}
+  .mp-line{font-size:17px}
+  .mp-line.active{font-size:21px}
+  .mp-imm-bar{padding:0 14px 16px;gap:8px;flex-wrap:wrap}
 }
 `
 
@@ -1102,6 +1125,65 @@ window.__ModuleLoader__.load({
       )
     }
 
+    // ---------------------------------------------------------------- 窄面板迷你播放条
+    /** 面板窄的时候（手机 / 拆分窗口）卡片换成顶部一条，避免竖着占掉一半高度。 */
+    function MiniBar() {
+      const [snap, setSnap] = useState({ ...playerState })
+      const [preview, setPreview] = useState(null)
+      useEffect(() => {
+        const update = () => setSnap({ ...playerState })
+        subscribers.add(update)
+        update()
+        return () => subscribers.delete(update)
+      }, [])
+      const item = snap.item
+      if (!item) return null
+      const duration = snap.duration || 0
+      const position = Math.min(snap.position || 0, duration || 0)
+      return h(
+        'div',
+        { className: 'mp-mini' },
+        h(
+          'div',
+          { className: 'mp-mini-row' },
+          item.cover
+            ? h('img', { className: 'mp-mini-cover', src: proxyUrl(item.cover), alt: '' })
+            : h('div', { className: 'mp-mini-cover' }),
+          h(
+            'div',
+            { className: 'mp-mini-meta' },
+            h('div', { className: 'mp-mini-name' }, item.name),
+            h('div', { className: 'mp-mini-sub' }, artistText(item) || '未知歌手'),
+          ),
+          h('button', { className: 'mp-round', type: 'button', title: '上一首', onClick: () => void stepTrack(-1) }, '⏮'),
+          h('button', {
+            className: 'mp-round play',
+            type: 'button',
+            title: snap.playing ? '暂停' : '播放',
+            onClick: () => void togglePlay().catch(() => {}),
+          }, snap.playing ? '⏸' : '▶'),
+          h('button', { className: 'mp-round', type: 'button', title: '下一首', onClick: () => void stepTrack(1) }, '⏭'),
+          h('button', { className: 'mp-btn tiny', type: 'button', title: '全屏歌词', onClick: () => setImmersive(true) }, '歌词'),
+        ),
+        h(
+          'div',
+          { className: 'mp-mini-row' },
+          h(SeekBar, {
+            value: position,
+            max: duration,
+            disabled: duration <= 0,
+            onSeek: seekTo,
+            onPreview: setPreview,
+          }),
+          h(
+            'span',
+            { className: 'mp-mini-time' },
+            `${fmtTime(preview === null ? position : preview)} / ${fmtTime(duration)}`,
+          ),
+        ),
+      )
+    }
+
     // ---------------------------------------------------------------- 主面板
     function Panel() {
       const [snap, setSnap] = useState({ ...playerState })
@@ -1434,6 +1516,7 @@ window.__ModuleLoader__.load({
           }),
           h('button', { className: 'mp-btn primary', type: 'submit', disabled: searching }, searching ? '搜索中…' : '搜索'),
         ),
+        h(MiniBar),
         h(
           'div',
           { className: 'mp-body' },
