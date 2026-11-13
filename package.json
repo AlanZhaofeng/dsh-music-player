@@ -1,0 +1,45 @@
+{
+  "name": "dsh-music-player",
+  "version": "0.1.0",
+  "description": "音乐播放器（DSH 插件）：左侧栏入口，搜索 / 卡片式播放页 / 全屏沉浸歌词（双语）/ 下载",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "music",
+    "player"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "slots"
+      ],
+      "external": [
+        "react"
+      ]
+    }
+  }
+}

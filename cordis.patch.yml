@@ -1,0 +1,6 @@
+# 装进 profile 的一个 loader entry。
+# id 用于日志/配置识别；宿主半边在 index.js 里注册 /dsh-music-player/* 本地路由，
+# 浏览器半边在 client.js 里注册左侧栏图标（sidebar.panellist）与主面板（main）。
+- insert:
+    - id: music-player
+      name: dsh-music-player
